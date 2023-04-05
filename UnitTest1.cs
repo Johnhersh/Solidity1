@@ -6,10 +6,19 @@ public class UnitTest1
 {
     public UnitTest1()
     {
+        const string ImageName = "ganache-testing";
         var Docker = new Builder()
-            .DefineImage("ganache-testing").ReuseIfAlreadyExists()
+            .DefineImage(ImageName).ReuseIfAlreadyExists()
             .From("trufflesuite/ganache:v7.7.7")
-            .Builder().Build();
+            .Builder()
+
+            // Container definition
+            .UseContainer()
+            .WithName(Guid.NewGuid().ToString("D").ToLower())
+            .UseImage(ImageName)
+
+            .Build()
+            .Start();
     }
     
     [Fact]
